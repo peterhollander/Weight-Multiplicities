@@ -14,6 +14,11 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
  ```Python
  weyl_alternation_set(lam,mu=(0,0,0))
  ```
+ - Compute and display empty regions (lambdas for which no Weyl group elements contribute to the weight multiplicity, for fixed mu). Parameter ``mu`` is a triple representing a linear combination of the fundamental weights $\omega_1,\omega_2,\omega_3$. Parameter ``dist`` specifies the maximum magnitude of the components of lambda the program should check and plot. Parameters ``color`` and ``size`` specify the color and size of the points in the plot
+ ```Python
+ plot_empty_region(mu, dist=15, color='red', size=25)
+ ```
+
 ## Prerequisites
 - A working installation of SageMath (Tested on Version 8.8)
 ## Usage
