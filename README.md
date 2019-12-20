@@ -21,6 +21,7 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
 
 ## Prerequisites
 - A working installation of SageMath (Tested on Version 8.8)
+- Java Runtime Environment that can run jmol (for empty region plots)
 ## Usage
 - Open Sage in the project directory
 - Run the following code to begin:
