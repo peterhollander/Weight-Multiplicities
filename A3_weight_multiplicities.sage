@@ -112,6 +112,9 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=False):
                     S2 = 0
                 c = S1 - S2 + F2 - F1 + 1
                 result += c * q^j
+
+    if not q_analog:
+        result = result.subs({q:1})
         
     return result
 
@@ -161,7 +164,7 @@ def weyl_alternation_set(lam, mu=(0,0,0)):
 
 def plot_empty_region(mu, dist=15, color='red', size=25):
     """
-    Plots the empty region (region for which no Weyl group elements contribute)
+    Plots the empty region (points lambda for which no Weyl group elements contribute)
     for a given mu = (m,n,k) correspondingn to m*w_1 + n*w_2 + k*w_3
     Parameters:
     - dist: Radius of region to check & plot points
