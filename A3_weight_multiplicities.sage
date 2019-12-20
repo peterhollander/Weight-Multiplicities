@@ -115,7 +115,7 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=False):
         
     return result
 
-def weight_multiplicity(lam, mu=(0,0,0), q_analog=True):
+def kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True):
     """
     Computes the weight q-multiplicity of the weight mu in the irreducible
     representation of sl_4(C) with highest weight lam
@@ -225,6 +225,47 @@ def weyl_actions():
     return [(s,vector_to_alpha_coords(s.matrix() * (lam + rho) - (rho + mu))) for s in W]
 
 weyl_action_callable_dict = dict([ (p[0],[fast_callable(p[1][i][0], vars=[m,n,k,c1,c2,c3]) for i in range(0,3)]) for p in weyl_actions()])
+
+###############################################################################
+###############################################################################
+###############################################################################
+###############################################################################
+# Diagram code
+
+def point_plot_reversed(dist, mu, sigmas, color, size=10):
+    if(isinstance(color,basestring)):
+        col = tuple(colors[color])
+    else:
+        col = color
+    # Get the xyz coordinates
+    c1_ = mu[0]
+    c2_ = mu[1]
+    c3_ = mu[2]
+    sub1dict = dict(sub_1_result)
+    coords_xyz = [
+            (x_, y_, z_)
+            for x_ in range(-dist, dist) for y_ in range(-dist, dist)
+            for z_ in range(-dist, dist)
+            if all( [
+                any([
+                sub_1_callable[list(sub1dict.keys()).index(s)][j](x_,y_,z_,c1_,c2_,c3_) < 0
+                for j in range(0,3)
+                ])
+                for s in sigmas])
+        ]
+
+    # Substitute in m,n,k
+    coords_mnk = [tuple( [xyz_to_mnk[j](x_,y_,z_,c1_,c2_,c3_) for j in [0,1,2]] )
+        for (x_,y_,z_) in coords_xyz]
+
+    # Transform into omega coordinates
+    coords_mnk_omega = [m_*wp1 + n_*wp2 + k_*wp3 for (m_,n_,k_) in coords_mnk]
+    max_z = max([pt[2] for pt in coords_mnk_omega])
+    min_z = min([pt[2] for pt in coords_mnk_omega])
+    range_z = max_z-min_z
+    print(col)
+    points = [point3d(pt, size, color=tuple(min(1,col[j] * max(0.3,(max_z-pt[2]+0.3)/(range_z))) for j in range(0,3)), opacity=1) for pt in coords_mnk_omega]
+    return sum(points)
 
 
 # Reload file in interactive Sage environment
