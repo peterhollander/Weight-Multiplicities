@@ -171,7 +171,18 @@ def plot_empty_region(mu, dist=15, color='red', size=25):
     - color: Color of points
     - size: Radius of points (which are spheres)
     """
-    return point_plot_reversed(dist, mu, W, color, size)
+    return show(point_plot_reversed(dist, mu, W, color, size), frame=False)
+
+def plot_alternation_diagram(sigmas, mu=(0,0,0), restricted=False, color='red', dist=20, size=15):
+    '''
+    Plots the Weyl alternation diagram for a given weight mu=m*w_1 + n*w+2 + k*w_3
+    Parameters:
+    restricted: If true, plot weights lambda such that A(lambda, mu) is exactly sigmas.
+                If false, plot weights lambda such that A(lambda, mu) contains sigmas.
+    '''
+    the_plot = alt_set_plot(dist=dist, mu=mu, sigmas=sigmas, 
+        color=color, size=size, restricted=restricted)
+    return the_plot
 
 
 ###############################################################################
@@ -213,6 +224,7 @@ W = WeylGroup(['A', 3], prefix='s')
 a = W.domain().simple_roots()
 P = W.domain().positive_roots()
 [s1, s2, s3] = W.simple_reflections()
+e=s1*s1
 
 # Simple root vectors for the Lie algebra of type A_3
 a1 = ambient_to_vector(a[1])
@@ -297,6 +309,24 @@ ap2 = alpha_projection_cols.solve_right(a2_)
 ap3 = alpha_projection_cols.solve_right(a3_)
 
 
+def point_plot_count_alpha(mu, dist=10):
+    # Get the xyz coordinates
+    sigmas = W
+    A = matrix([[3/4,1/2,1/4],[1/2,1,1/2],[1/4,1/2,3/4]])
+    [c1_, c2_, c3_] = A * vector(mu)
+    coords_xyz = [
+            (x_, y_, z_)
+            for x_ in range(-dist, dist) for y_ in range(-dist, dist)
+            for z_ in range(-dist, dist)
+            if all( [
+                any([
+                sub_1_callable[list(sub_1_dict.keys()).index(s)][j](x_,y_,z_,c1_,c2_,c3_) < 0
+                for j in range(0,3)
+                ])
+                for s in sigmas])
+        ]
+    return len(coords_xyz)
+
 def point_plot_reversed(dist, mu, sigmas, color, size=10):
     if(isinstance(color,basestring)):
         col = tuple(colors[color])
@@ -330,7 +360,114 @@ def point_plot_reversed(dist, mu, sigmas, color, size=10):
     points = [point3d(pt, size, color=tuple(min(1,col[j] * max(0.3,(max_z-pt[2]+0.3)/(range_z))) for j in range(0,3)), opacity=1) for pt in coords_mnk_omega]
     return show(sum(points), frame=False)
 
+def alt_set_plot(dist, mu, sigmas, restricted=False, color='red', size=15):
+    others = set(W).difference(sigmas)
+    # Get the xyz coordinates
+    if(isinstance(color,basestring)):
+        col = tuple(colors[color])
+    else:
+        col = color
+    c1_ = mu[0]
+    c2_ = mu[1]
+    c3_ = mu[2]
+    sub1dict = dict(sub_1_result)
+    if restricted:
+        coords_xyz = [
+                (x_, y_, z_)
+                for x_ in range(-dist, dist) for y_ in range(-dist, dist)
+                for z_ in range(-dist, dist)
+                if all( [
+                    sub_1_callable_dict[s][j](x_,y_,z_,c1_,c2_,c3_) >= 0
+                    for j in range(0,3) for s in sigmas])
+                and all( [ # For every other sigma
+                    any([sub_1_callable_dict[s][j](x_,y_,z_,c1_,c2_,c3_) < 0 for j in range(0,3)]) # this sigma does not contribute
+                    for s in others])
+            ]
+    else:
+        coords_xyz = [
+                (x_, y_, z_)
+                for x_ in range(-dist, dist) for y_ in range(-dist, dist)
+                for z_ in range(-dist, dist)
+                if all( [
+                    sub_1_callable_dict[s][j](x_,y_,z_,c1_,c2_,c3_) >= 0
+                    for j in range(0,3) for s in sigmas])
+            ]
 
+    # A * [alpha coeffs vector] = [omega coeffs vector]
+    A = matrix([[3/4, 1/2, 1/4], [1/2, 1, 1/2], [1/4, 1/2, 3/4]])
+    #print(A.solve_right(vector([0,1,2])))
+
+    # Substitute in m,n,k
+    coeffs_mnk_omega = [tuple( [xyz_to_mnk[j](x_,y_,z_,c1_,c2_,c3_) for j in [0,1,2]] )
+        for (x_,y_,z_) in coords_xyz]
+    coeffs_mnk_omega_nn = [vec for vec in coeffs_mnk_omega 
+            if all([vec[j] >= 0 for j in [0,1,2]])]
+    coeffs_mnk_alpha = [A*vector(omega_coeffs) 
+            for omega_coeffs in coeffs_mnk_omega]
+    coeffs_mnk_alpha_nn = [vec for vec in coeffs_mnk_alpha 
+            if all([vec[j] >= 0 for j in [0,1,2]])]
+
+    # Transform into omega coordinates
+    #coords_mnk_omega = [m_*wp1 + n_*wp2 + k_*wp3 for (m_,n_,k_) in coords_mnk]
+    coords_mnk_alpha = [m_*ap1 + n_*ap2 + k_*ap3 for (m_,n_,k_) in coeffs_mnk_alpha]
+    coords_mnk_omega = [m_*wp1 + n_*wp2 + k_*wp3 for (m_,n_,k_) in coeffs_mnk_omega]
+    coords_mnk_alpha_nn = [m_*ap1 + n_*ap2 + k_*ap3 
+        for (m_,n_,k_) in coeffs_mnk_alpha_nn]
+    coords_mnk_omega_nn = [m_*wp1 + n_*wp2 + k_*wp3 
+        for (m_,n_,k_) in coeffs_mnk_omega_nn]
+    pts = coeffs_mnk_omega
+    pts_plot = coords_mnk_omega
+    if (not pts):
+        print('empty')
+        return 0;
+    #coords_mnk_omega = [m_*wp1 + n_*wp2 + k_*wp3 for (m_,n_,k_) in coords_mnk if m_>=0 and n_>=0 and k_>=0]
+    max_z = max([pt[2] for pt in pts_plot])+1
+    min_z = min([pt[2] for pt in pts_plot])-1
+    range_z = max_z-min_z
+    if (range_z == 0):
+        range_z = 1
+    points = [point3d(pt, size, color=tuple(col[j] * (max_z-pt[2]+0.1)/range_z for j in range(0,3)), opacity=.75) for pt in pts_plot]
+    return show(sum(points) + fundamental_weight_plot(range_z), frame=False)
+
+
+def fundamental_weight_plot(scale=1):
+    pO1 = tuple(ap1)
+    pO2 = tuple(ap2)
+    pO3 = tuple(ap3)
+
+    width = scale
+    txt = 400
+    O1 = arrow3d(start=(0,0,0), end=tuple(wp1*scale), color='red', width=width)
+    O2 = arrow3d(start=(0,0,0), end=tuple(wp2*scale), color='green', width=width)
+    O3 = arrow3d(start=(0,0,0), end=tuple(wp3*scale), color='blue', width=width)
+    O1_label = text3d("w_1", tuple((scale+0.3)*wp1), color='black', 
+            fontsize='xx-large', fontweight='black', background_color='white')
+    O2_label = text3d("w_2", tuple((scale+0.3)*wp2), color='black', 
+            fontsize='xx-large', fontweight='black', background_color='white')
+    O3_label = text3d("w_3", tuple((scale+0.3)*wp3), color='black', 
+            fontsize='xx-large', fontweight='black', background_color='white')
+
+    return O1 + O2 + O3 + O1_label + O2_label + O3_label
+
+
+def simple_root_plot(scale=1):
+    pO1 = tuple(ap1)
+    pO2 = tuple(ap2)
+    pO3 = tuple(ap3)
+
+    width = scale
+    txt = 400
+    O1 = arrow3d(start=(0,0,0), end=tuple(ap1*scale), color='red', width=width)
+    O2 = arrow3d(start=(0,0,0), end=tuple(ap2*scale), color='green', width=width)
+    O3 = arrow3d(start=(0,0,0), end=tuple(ap3*scale), color='blue', width=width)
+    O1_label = text3d("a_1", tuple((scale+0.3)*ap1), color='black', 
+            fontsize='xx-large', fontweight='black', background_color='white')
+    O2_label = text3d("a_2", tuple((scale+0.3)*ap2), color='black', 
+            fontsize='xx-large', fontweight='black', background_color='white')
+    O3_label = text3d("a_3", tuple((scale+0.3)*ap3), color='black', 
+            fontsize='xx-large', fontweight='black', background_color='white')
+
+    return O1 + O2 + O3 + O1_label + O2_label + O3_label
 
 
 # Reload file in interactive Sage environment

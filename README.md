@@ -14,9 +14,13 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
  ```Python
  weyl_alternation_set(lam,mu=(0,0,0))
  ```
- - Compute and display empty regions (lambdas for which no Weyl group elements contribute to the weight multiplicity, for fixed mu). Parameter ``mu`` is a triple representing a linear combination of the fundamental weights $\omega_1,\omega_2,\omega_3$. Parameter ``dist`` specifies the maximum magnitude of the components of lambda the program should check and plot. Parameters ``color`` and ``size`` specify the color and size of the points in the plot
+ - Compute and display empty regions (weights lambda for which no Weyl group elements contribute to the weight multiplicity m(lambda, mu)). Parameter ``mu`` is a triple representing a linear combination of the fundamental weights $\omega_1,\omega_2,\omega_3$. Parameter ``dist`` specifies the maximum magnitude of the components of lambda the program should check and plot. Parameters ``color`` and ``size`` specify the color and size of the points in the plot
  ```Python
  plot_empty_region(mu, dist=15, color='red', size=25)
+ ```
+ - Plot Weyl alternation diagrams for a given weight mu and a list of Weyl group elements. If not restricted, plots weights lambda such that the alternation set for lambda, mu is contains ``sigmas``. If restricted, plots weights lambda such that the alternation set for lambda, mu is exactly ``sigmas``. 
+ ```Python
+ plot_alternation_diagram(sigmas, mu=(0,0,0), restricted=False, color='red', dist=20, size=15)
  ```
 
 ## Prerequisites
