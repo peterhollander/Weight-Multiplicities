@@ -53,3 +53,11 @@ q^11 + 2*q^10 + 4*q^9 + 5*q^8 + 6*q^7 + 5*q^6 + 2*q^5
 > %timeit kostant_partition_function(xi=(50,70,60), q_analog=True, triple_sum=True)
 1 loop, best of 3: 398 ms per loop
 ```
+Here, we plot the restricted Weyl alternation diagram for {1, s1, s2} and ``mu=0``:
+```Python
+> plot_alternation_diagram([e,s1,s2], mu=(0,0,0), restricted=True, size=40)
+Launched jmol viewer for Graphics3d Object
+```
+Output:
+![alternation diagram](1s1s2.png?raw=true)
+
