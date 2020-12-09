@@ -2,11 +2,11 @@
 Authors: David Melendez, Lucy Martinez
 MSRI-UP, June - July 2019
 
-- Wherever not explicitly stated, we are working in the Lie algebra of type A_3. (now C_3)
+- Wherever not explicitly stated, we are working in the Lie algebra of type A_3.
 - This program implements closed forms for the weight (q)-multiplicity of a weight
-in the Lie algebra of type A_3. (now C_3)
+in the Lie algebra of type A_3.
 - Throughout the program we denote by a_1, a_2, a_3 the simple roots of the Lie
-algebra of type A_3 (now C_3), and we denote by w_1, w_2, w_3 the fundamental weights.
+algebra of type A_3, and we denote by w_1, w_2, w_3 the fundamental weights.
 '''
 
 def kostant_partition_function(xi, q_analog=True, triple_sum=True):
@@ -33,7 +33,7 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=True):
                 for f in range(0, min(m-2*h-g,n-2*h-2*g,k-h-g)+1):
                     ''' f represents the coefficient of al_1+al_2+al_3
                         in our partition.'''
-                    for i in range(0, min(floor((n-2*h-2*g-f)/2),k-h-g-f)+!):
+                    for i in range(0, min(floor((n-2*h-2*g-f)/2),k-h-g-f)+1):
                         '''i represents the coefficient of 2al_2+al_3 
                         in our partition'''
                         for d in range(0, min(m-2*h-g-f,n-2*h-2*g-f-2*i)+1):
