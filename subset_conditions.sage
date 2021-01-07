@@ -1,4 +1,4 @@
-W = WeylGroup(['C', 3], prefix='s')
+W = WeylGroup(['C', 3], prefix='s') 
 [s1, s2, s3] = W.simple_reflections()
 e=s1*s1
 
