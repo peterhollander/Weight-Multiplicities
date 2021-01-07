@@ -1,12 +1,14 @@
 '''
 Authors: David Melendez, Lucy Martinez
 MSRI-UP, June - July 2019
+(In the process of being) Modified for Lie Algebra of type C_3  by Maria Rodriguez Hertz
+November 2020 - eh 2021
 
-- Wherever not explicitly stated, we are working in the Lie algebra of type A_3.
+- Wherever not explicitly stated, we are working in the Lie algebra of type A_3. (C_3 when I finish changing it)
 - This program implements closed forms for the weight (q)-multiplicity of a weight
-in the Lie algebra of type A_3.
+in the Lie algebra of type A_3. (C_3)
 - Throughout the program we denote by a_1, a_2, a_3 the simple roots of the Lie
-algebra of type A_3, and we denote by w_1, w_2, w_3 the fundamental weights.
+algebra of type A_3 (C_3), and we denote by w_1, w_2, w_3 the fundamental weights.
 '''
 
 def kostant_partition_function(xi, q_analog=True, triple_sum=True):
@@ -34,10 +36,10 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=True):
                     ''' f represents the coefficient of al_1+al_2+al_3
                         in our partition.'''
                     for i in range(0, min(floor((n-2*h-2*g-f)/2),k-h-g-f)+1):
-                        '''i represents the coefficient of 2al_2+al_3 
+                        '''i represents the coefficient of 2al_2+al_3
                         in our partition'''
                         for d in range(0, min(m-2*h-g-f,n-2*h-2*g-f-2*i)+1):
-                            '''d represents the coefficient of al_1+al_2 
+                            '''d represents the coefficient of al_1+al_2
                             in our partition'''
                             for e in range(0, min(n-2*h-2*g-f-2*i-d,k-h-g-f-i)+1):
                                 '''e represents the coefficient of al_2+al_3
@@ -125,7 +127,7 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=True):
 
     if not q_analog:
         result = result.subs({q:1})
-        
+
     return result
 
 
@@ -142,7 +144,7 @@ def kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True):
                  returns the weight multiplicity.
     """
 
-    # Dictionary mapping Weyl group elements s to the coordinates of 
+    # Dictionary mapping Weyl group elements s to the coordinates of
     # s(lam+rho) - (mu + rho) with respect to the simple roots
     sigma_results_dict = get_sigma_results_dict(lam,mu)
 
@@ -199,7 +201,7 @@ def plot_alternation_diagram(sigmas, mu=(0,0,0), restricted=False, color='red', 
     restricted: If true, plot weights lambda such that A(lambda, mu) is exactly sigmas.
                 If false, plot weights lambda such that A(lambda, mu) contains sigmas.
     '''
-    the_plot = alt_set_plot(dist=dist, mu=mu, sigmas=sigmas, 
+    the_plot = alt_set_plot(dist=dist, mu=mu, sigmas=sigmas,
         color=color, size=size, restricted=restricted)
     return the_plot
 
@@ -419,20 +421,20 @@ def alt_set_plot(dist, mu, sigmas, restricted=False, color='red', size=15):
     # Substitute in m,n,k
     coeffs_mnk_omega = [tuple( [xyz_to_mnk[j](x_,y_,z_,c1_,c2_,c3_) for j in [0,1,2]] )
         for (x_,y_,z_) in coords_xyz]
-    coeffs_mnk_omega_nn = [vec for vec in coeffs_mnk_omega 
+    coeffs_mnk_omega_nn = [vec for vec in coeffs_mnk_omega
             if all([vec[j] >= 0 for j in [0,1,2]])]
-    coeffs_mnk_alpha = [A*vector(omega_coeffs) 
+    coeffs_mnk_alpha = [A*vector(omega_coeffs)
             for omega_coeffs in coeffs_mnk_omega]
-    coeffs_mnk_alpha_nn = [vec for vec in coeffs_mnk_alpha 
+    coeffs_mnk_alpha_nn = [vec for vec in coeffs_mnk_alpha
             if all([vec[j] >= 0 for j in [0,1,2]])]
 
     # Transform into omega coordinates
     #coords_mnk_omega = [m_*wp1 + n_*wp2 + k_*wp3 for (m_,n_,k_) in coords_mnk]
     coords_mnk_alpha = [m_*ap1 + n_*ap2 + k_*ap3 for (m_,n_,k_) in coeffs_mnk_alpha]
     coords_mnk_omega = [m_*wp1 + n_*wp2 + k_*wp3 for (m_,n_,k_) in coeffs_mnk_omega]
-    coords_mnk_alpha_nn = [m_*ap1 + n_*ap2 + k_*ap3 
+    coords_mnk_alpha_nn = [m_*ap1 + n_*ap2 + k_*ap3
         for (m_,n_,k_) in coeffs_mnk_alpha_nn]
-    coords_mnk_omega_nn = [m_*wp1 + n_*wp2 + k_*wp3 
+    coords_mnk_omega_nn = [m_*wp1 + n_*wp2 + k_*wp3
         for (m_,n_,k_) in coeffs_mnk_omega_nn]
     pts = coeffs_mnk_omega
     pts_plot = coords_mnk_omega
@@ -459,11 +461,11 @@ def fundamental_weight_plot(scale=1):
     O1 = arrow3d(start=(0,0,0), end=tuple(wp1*scale), color='red', width=width)
     O2 = arrow3d(start=(0,0,0), end=tuple(wp2*scale), color='green', width=width)
     O3 = arrow3d(start=(0,0,0), end=tuple(wp3*scale), color='blue', width=width)
-    O1_label = text3d("w_1", tuple((scale+0.3)*wp1), color='black', 
+    O1_label = text3d("w_1", tuple((scale+0.3)*wp1), color='black',
             fontsize='xx-large', fontweight='black', background_color='white')
-    O2_label = text3d("w_2", tuple((scale+0.3)*wp2), color='black', 
+    O2_label = text3d("w_2", tuple((scale+0.3)*wp2), color='black',
             fontsize='xx-large', fontweight='black', background_color='white')
-    O3_label = text3d("w_3", tuple((scale+0.3)*wp3), color='black', 
+    O3_label = text3d("w_3", tuple((scale+0.3)*wp3), color='black',
             fontsize='xx-large', fontweight='black', background_color='white')
 
     return O1 + O2 + O3 + O1_label + O2_label + O3_label
@@ -479,11 +481,11 @@ def simple_root_plot(scale=1):
     O1 = arrow3d(start=(0,0,0), end=tuple(ap1*scale), color='red', width=width)
     O2 = arrow3d(start=(0,0,0), end=tuple(ap2*scale), color='green', width=width)
     O3 = arrow3d(start=(0,0,0), end=tuple(ap3*scale), color='blue', width=width)
-    O1_label = text3d("a_1", tuple((scale+0.3)*ap1), color='black', 
+    O1_label = text3d("a_1", tuple((scale+0.3)*ap1), color='black',
             fontsize='xx-large', fontweight='black', background_color='white')
-    O2_label = text3d("a_2", tuple((scale+0.3)*ap2), color='black', 
+    O2_label = text3d("a_2", tuple((scale+0.3)*ap2), color='black',
             fontsize='xx-large', fontweight='black', background_color='white')
-    O3_label = text3d("a_3", tuple((scale+0.3)*ap3), color='black', 
+    O3_label = text3d("a_3", tuple((scale+0.3)*ap3), color='black',
             fontsize='xx-large', fontweight='black', background_color='white')
 
     return O1 + O2 + O3 + O1_label + O2_label + O3_label
