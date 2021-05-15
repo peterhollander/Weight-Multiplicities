@@ -58,4 +58,5 @@ Here, we plot the restricted Weyl alternation diagram for {1, s1, s2} and ``mu=0
 > plot_alternation_diagram([e,s1,s2], mu=(0,0,0), restricted=True, size=40)
 Launched jmol viewer for Graphics3d Object
 ```
-
+Output:
+![alternation diagram](1s1s2.png?raw=true)
