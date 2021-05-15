@@ -59,4 +59,5 @@ Here, we plot the restricted Weyl alternation diagram for {1, s1, s2} and ``mu=0
 Launched jmol viewer for Graphics3d Object
 ```
 Output:
+
 ![alternation diagram](1s1s2.png?raw=true)
