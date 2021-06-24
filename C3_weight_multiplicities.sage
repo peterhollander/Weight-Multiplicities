@@ -51,92 +51,22 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=True):
                                     result += q^(m+n+k-d-e-2*f-3*g-4*h-2*i)
                                 else:
                                     result += 1
-    ''' Will edit when we have closed formulas
-    else:
-        # Closed formulas deduced in the paper
-        if (m >= n and k >= n):
-            for j in range(m+k-n, m+n+k+1):
-                t = m + n + k - j
-                L = min(floor(t/2), n-ceil(t/2))
-                result += (L+1) * (L + (t%2) + 1) * q^j
-        elif (m >= n >= k):
-            for j in range(m, m+n+k+1):
-                t = m + n + k - j
-                F2 = min(floor(t/2), k)
-                J = k - F2 - (t%2)
-                F1 = max(t-n, 0)
-                L = F2-F1
-                if (J < 0):
-                    c = (L+1)*(2*k - 2*F2 + L + 2)/2
-                elif (0 <= J <= L):
-                    c = ((L+1)*(L+2) - F2*(F2+1) - k*(k-1))/2 + F2*k + k*L - F2*L + (k-F2)*(t%2)
-                elif (J > L):
-                    c = (L+1)*(L+(t%2)+1)
-                result += c*q^j
-        elif (k >= n >= m):
-            for j in range(k, k+n+m+1):
-                t = k + n + m - j
-                F2 = min(floor(t/2), m)
-                J = m - F2 - (t%2)
-                F1 = max(t-n, 0)
-                L = F2-F1
-                if (J < 0):
-                    c = (L+1)*(2*m - 2*F2 + L + 2)/2
-                elif (0 <= J <= L):
-                    c = ((L+1)*(L+2) - F2*(F2+1) - m*(m-1))/2 + F2*m + m*L - F2*L + (m-F2)*(t%2)
-                elif (J > L):
-                    c = (L+1)*(L+(t%2)+1)
-                result += c*q^j
-        elif (n >= m >= k):
-            for j in range(n, m+n+k+1):
-                t = m + n + k - j
-                F1 = max(0, t - min(m+k,n))
-                F2 = min(floor(t/2), k)
-                if (t-m < 0):
-                    S1 = (t-F2) * (F2+1)
-                    #S1 = t*(F2 - F1 + 1) - F2*(F2 + 1)
-                elif (0 <= t-m <= F2):
-                    S1 = ((t-m) * (t-m+1) + F1*(F1-1))/2 - F2*(F2+1) + m*(t-m-F1+1) + t*(F2-t+m)
-                if (0 <= t-k <= F2):
-                    S2 = (t-k)*(t-k-F1+1) - ((t-k)*(t-k+1) - F1*(F1-1))/2
-                elif (t-k > F2):
-                    S2 = (t-k)*(F2-F1+1) - (F2*(F2+1) - F1*(F1-1))/2
-                    #S2 = F2*(F2-F1+1) - (F2*(F2+1) - F1*(F1-1))/2
-                elif (t-k < 0):
-                    S2 = 0
-                c = S1 - S2 + F2 - F1 + 1
-                result += c * q^j
-        elif (n >= k >= m):
-            for j in range(n, m+n+k+1):
-                t = m + n + k - j
-                F1 = max(0, t - min(m+k,n))
-                F2 = min(floor(t/2), m)
-                if (t-k < 0):
-                    S1 = (t-F2) * (F2+1)
-                elif (0 <= t-k <= F2):
-                    S1 = ((t-k) * (t-k+1) + F1*(F1-1) - 2*F2*(F2+1) + 2*k*(t-k-F1+1) + 2*t*(F2-(t-k)))/2
-                if (0 <= t-m <= F2):
-                    S2 = (t-m)*(t-m-F1+1) - ((t-m)*(t-m+1) - F1*(F1-1))/2
-                elif (t-m > F2):
-                    S2 = (t-m)*(F2-F1+1) - (F2*(F2+1) - F1*(F1-1))/2
-                elif (t-m < 0):
-                    S2 = 0
-                c = S1 - S2 + F2 - F1 + 1
-                result += c * q^j
-       '''
+
+    #add closed formulas when we have them
 
     if not q_analog:
         result = result.subs({q:1})
-
+    
+    print(result)
     return result
 
 
 
 
-def kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True):
+def kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True): #is just general formula for all lie algebras
     """
     Computes the weight q-multiplicity of the weight mu in the irreducible
-    representation of sp_6(C) with highest weight lam
+    representation of sl_4(C) with highest weight lam
     Parameters:
     - lam : 3-tuple (m,n,k) representing the weight m*w_1 + n*w_2 * n*w_3
     - mu : 3-tuple (c1,c2,c3) representing the weight c1*w_1+c2*w_2+c3*w_3
@@ -158,12 +88,14 @@ def kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True):
         vec = sigma_results_dict[s]
         sign = (-1)^(s.length())
         multiplicity += sign * kostant_partition_function(vec, q_analog=q_analog)
+    #print('weight mult:')
+    #print(multiplicity)
     return multiplicity
 
 
 
 
-def weyl_alternation_set(lam, mu=(0,0,0)):
+def weyl_alternation_set(lam, mu=(0,0,0)): #not for any specific lie algebra
     """
     Finds the Weyl alternation set for lam = mw_1 + nw_2 + kw_3
     and mu = c_1w_1 + c_2w_2 + c_3w+3
@@ -178,6 +110,8 @@ def weyl_alternation_set(lam, mu=(0,0,0)):
     for s in W:
         if all( [ sigma_results_dict[s][j] >= 0 for j in range(0,3) ] ):
             alt_set.add(s)
+    #print('alternation set')
+    #print(alt_set)
     return alt_set
 
 
@@ -222,14 +156,14 @@ def get_sigma_results_dict(lam, mu):
 
 # Takes ambient space vector and converts to column matrix over SR
 def ambient_to_list(v):
-    return [v[i] for i in range(0,4)]
+    return [v[i] for i in range(0,3)]
 
 # Takes vector and converts to a list
 def vector_to_list(v):
-    return [v[i] for i in range(0,4)]
+    return [v[i] for i in range(0,3)]
 
 
-# Take R4 vector and gives coordinates in terms of alpha's
+# Take R3 vector and gives coordinates in terms of alpha's
 # v = c1 * a1 + c2 * a2 + c3 * a3
 def ambient_to_alpha_coords(v):
     return root_matrix.solve_right(ambient_to_vector(v))
@@ -238,19 +172,23 @@ def vector_to_alpha_coords(v):
     return root_matrix.solve_right(v)
 
 def ambient_to_vector(v):
-    return matrix([v[i] for i in range(0,4)],ring=SR).transpose()
+    return matrix([v[i] for i in range(0,3)],ring=SR).transpose()
 
-var('m n k c1 c2 c3')
-W = WeylGroup(['C', 3], prefix='s')
+var('m n k c1 c2 c3') #updated weyl group to C_3
+W = WeylGroup(['C', 3], prefix='s') 
 a = W.domain().simple_roots()
+#print("simple roots")
+#print(a)
 P = W.domain().positive_roots()
+#print("positive roots")
+#print(P)
 [s1, s2, s3] = W.simple_reflections()
 e=s1*s1
 
-# Simple root vectors for the Lie algebra of type C_# (?)
-a1 = ambient_to_vector(a[1])
-a2 = ambient_to_vector(a[2])
-a3 = ambient_to_vector(a[3])
+# Simple root vectors for the Lie algebra of type C_3
+a1 = ambient_to_vector(a[1]); #print('a1'); print(a1)
+a2 = ambient_to_vector(a[2]); #print('a1'); print(a2)
+a3 = ambient_to_vector(a[3]); #print('a1'); print(a3)
 
 root_matrix = matrix([ambient_to_list(a[i]) for i in range(1,4)],ring=SR).transpose()
 
@@ -271,7 +209,7 @@ def weyl_actions():
     """
     return [(s,vector_to_alpha_coords(s.matrix() * (lam + rho) - (rho + mu))) for s in W]
 
-def weyl_actions_sub(a,b,c):
+def weyl_actions_sub(a,b,c): #used later to substitute m,n,k for x,y,z,c1,c2,c3
     return [(s,vector_to_alpha_coords(s.matrix() * (lam + rho) - (rho + mu)).substitute([m==a,n==b,k==c])) for s in W]
 
 
@@ -305,8 +243,9 @@ def gram_schmidt_symb(M):
 
 # Substitutions of m,n,k in terms of x,y,z,c1,c2,c3 to ensure that alpha coefficients
 # in partition function input are integers for integral x,y,z
+'''this probably needs to be changed for C_3'''
 var('x y z')
-sub_1 = matrix([[3,2,1],[1,2,1],[1,2,3]],ring=SR).solve_right(vector([4*x+3*c1+2*c2+c3,2*y+c1+2*c2+c3,4*z+c1+2*c2+3*c3]))
+sub_1 = matrix([[2,2,1],[1,2,1],[2,4,3]],ring=SR).solve_right(vector([2*x+2*c1+2*c2+c3,y+c1+2*c2+c3,2*z+2*c1+4*c2+3*c3]))
 
 # sigma(lam+rho) - (rho + mu) with integrality substitutions for m,n,k
 # applied
@@ -333,7 +272,7 @@ ap3 = alpha_projection_cols.solve_right(a3_)
 def point_plot_count_alpha(mu, dist=10):
     # Get the xyz coordinates
     sigmas = W
-    A = matrix([[3/4,1/2,1/4],[1/2,1,1/2],[1/4,1/2,3/4]])
+    A = matrix([[1,1,1/2],[1,2,1],[1,2,3/2]]) #chnaged to right alpha omega conversion
     [c1_, c2_, c3_] = A * vector(mu)
     coords_xyz = [
             (x_, y_, z_)
@@ -349,7 +288,7 @@ def point_plot_count_alpha(mu, dist=10):
     return len(coords_xyz)
 
 def point_plot_reversed(dist, mu, sigmas, color, size=10):
-    if(isinstance(color,basestring)):
+    if(isinstance(color, str)): ### basestring is not defined????
         col = tuple(colors[color])
     else:
         col = color
@@ -384,7 +323,7 @@ def point_plot_reversed(dist, mu, sigmas, color, size=10):
 def alt_set_plot(dist, mu, sigmas, restricted=False, color='red', size=15):
     others = set(W).difference(sigmas)
     # Get the xyz coordinates
-    if(isinstance(color,basestring)):
+    if(isinstance(color,str)): #basestring not defined??
         col = tuple(colors[color])
     else:
         col = color
@@ -413,9 +352,10 @@ def alt_set_plot(dist, mu, sigmas, restricted=False, color='red', size=15):
                     sub_1_callable_dict[s][j](x_,y_,z_,c1_,c2_,c3_) >= 0
                     for j in range(0,3) for s in sigmas])
             ]
-
-    # A * [alpha coeffs vector] = [omega coeffs vector]
-    A = matrix([[3/4, 1/2, 1/4], [1/2, 1, 1/2], [1/4, 1/2, 3/4]])
+    
+    
+    # A * [alpha coeffs vector] = [omega coeffs vector] 
+    A = matrix([[1, 1, 1/2], [1, 2, 1], [1, 2, 3/2]]) #changed to C_3
     #print(A.solve_right(vector([0,1,2])))
 
     # Substitute in m,n,k
@@ -496,9 +436,9 @@ def rl():
     load('partitions.sage')
 
 
-rl()
-kostant_partition_function((1,2,3), q_analog=True, triple_sum=True)
-#weyl_alternation_set(lam=(2,3,4), mu=(0,0,0))
+#kostant_partition_function((1,2,3), q_analog=True, triple_sum=True)
+#weyl_alternation_set(lam=(2,2,2), mu=(0,0,0))
 #kostant_weight_multiplicity(lam=(2,3,4), mu=(0,0,0), q_analog=True)
 
-#plot_empty_region((0,0,0), dist=15, color='red', size=25)
+plot_empty_region((0,0,2), dist=15, color='red', size=200)
+#plot_alternation_diagram(W, mu=(2,3,4), restricted=False, color='red', dist=20, size=15)
