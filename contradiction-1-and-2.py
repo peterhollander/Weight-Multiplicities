@@ -1,5 +1,5 @@
 import itertools
-from updated_alt_sets import currentAltSets2
+from updated_alt_sets import currentAltSets3,currentAltSets4,currentAltSets5,currentAltSets6
 
 #getting coefficients
 bigToSmall = {
@@ -13,9 +13,9 @@ bigToSmall = {
 
 #contradictions of type II
 zeroToOne = {
-    "b":{"a"}, "c":{"a", "b"}, "d":{"a", "b", "c"}, "f":{"e"}, "g":{"e", "f"},
+    "b":{"a"}, "c":{"a", "b", "g"}, "d":{"a", "b", "c"}, "f":{"e"}, "g":{"e", "f"},
     "h":{"e","f"}, "i":{"e","f","g","h"}, "j":{"e","f","h"}, "l":{"t"},
-    "r":{"t","l"}, "s":{"t","l","r"}, "o":{"t","l","r"}, "a":set(),
+    "r":{"t","l"}, "s":{"t","l","r"}, "o":{"t","l","r","j"}, "a":set(),
     "e": set(), "t": set(), "p": set(),
 }
 
@@ -71,6 +71,8 @@ def giveContradictionsII(combination):
     smallContradictions = set() #these also need to be >=0
     for small in allSmall:
         smallContradictions = smallContradictions.union(zeroToOne[small])
+    if {"a","g"}.issubset(allSmall):
+        smallContradictions = smallContradictions.union("t")
         #print("smallContradictions.union(zeroToOne[small])", smallContradictions.union(zeroToOne[small]))
     #print("smallContradictions", smallContradictions)
 
@@ -103,9 +105,10 @@ def removeSubsets(altSets):
     newAltSet = []
     for subset in altSets:
         if len(giveNeeded(subset)) == 0:
-            newAltSet.append(subset)
+            if not(all(x in subset for x in ['A','N']) and 'J' not in subset):
+                newAltSet.append(subset)
     print(len(newAltSet))
     return newAltSet
 
-print(removeSubsets(currentAltSets2))
+print(removeSubsets(currentAltSets4))
 
