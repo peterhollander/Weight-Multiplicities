@@ -1,24 +1,22 @@
 import itertools
 from updated_alt_sets import currentAltSets1
+
 bigToSmall = {
     "A" : {"a", "e", "t"}, "B" : {"b", "e", "t"}, "C" : {"a", "f", "t"},
     "D" : {"a", "e", "l"}, "E" : {"c", "f", "t"}, "F" : {"b", "g", "t"},
     "G" : {"a", "h", "l"}, "H" : {"b", "e", "l"}, "I" : {"a", "f", "r"},
-    "J" : {"c", "g", "t"}, "K" : {"d", "h", "l"}, "L" : {"b", "i", "l"},
+    "J" : {"c", "g", "t"}, "L" : {"b", "i", "l"},
     "M" : {"a", "j", "r"}, "N" : {"b", "g", "s"}, "O" : {"c", "f", "r"},
     "P" : {"a", "h", "o"}, "Q" : {"c", "g", "s"}, "R" : {"a", "j", "o"},
 }
-
 #contradictions
 zeroToOne = {
-    "b":{"a"}, "c":{"a", "b"}, "d":{"a", "b", "c"}, "f":{"e"}, "g":{"e", "f"},
+    "b":{"a"}, "c":{"a", "b","g"}, "d":{"a", "b", "c"}, "f":{"e"}, "g":{"e", "f"},
     "h":{"e","f"}, "i":{"e","f","g","h"}, "j":{"e","f","h"}, "l":{"t"},
-    "r":{"t","l"}, "s":{"t","l","r"}, "o":{"t","l","r"}, "a":set(),
+    "r":{"t","l"}, "s":{"t","l","r"}, "o":{"t","l","r","j"}, "a":set(),
     "e": set(), "t": set(), "p": set(),
     }
-
-allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-                  "M", "N", "O", "P", "Q", "R"]
+allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "L", "M", "N", "O",    "P", "Q", "R"]
 
 #turns any imputed set of big letters (summation term) into small ones (conditions)
 def takeBigToSmall(combination):
@@ -34,8 +32,9 @@ def giveContradictions(combination):
     smallContradictions = set() #these also need to be >=0
     for small in allSmall:
         smallContradictions = smallContradictions.union(zeroToOne[small])
+    if {"a","g"}.issubset(allSmall):
+        smallContradictions = smallContradictions.union("t")
     return smallContradictions
-
 
 def giveNeeded(combination):
     #gettin all 3-element subsets of the 'contradicting' small leters (conditions)
@@ -48,14 +47,18 @@ def giveNeeded(combination):
         for element in allElementList:
             if subset == bigToSmall[element] and element not in combination:
                 needed.append(element)
+    #account for s_0 and o_0
+    if all(x in takeBigToSmall(combination) for x in ['o','s']):
+        needed.append('K') #because K is a no-longer used letter
     return needed
 
-#ut this all together to discard contradicting alt sets
+#put this all together to discard contradicting alt sets
 def removeSubsets(altSets):
     newAltSet = []
     for subset in altSets:
         if len(giveNeeded(subset)) == 0:
-            newAltSet.append(subset)
+            if not(all(x in subset for x in ['A','N']) and 'J' not in subset):
+                newAltSet.append(subset)
     print(len(newAltSet))
     return newAltSet
 
