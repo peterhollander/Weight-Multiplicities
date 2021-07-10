@@ -1,12 +1,12 @@
 import itertools
-from updated_alt_sets import currentAltSets3,currentAltSets4,currentAltSets5,currentAltSets6
+from updated_alt_sets import currentAltSets2
 
 #getting coefficients
 bigToSmall = {
     "A" : {"a", "e", "t"}, "B" : {"b", "e", "t"}, "C" : {"a", "f", "t"},
     "D" : {"a", "e", "l"}, "E" : {"c", "f", "t"}, "F" : {"b", "g", "t"},
     "G" : {"a", "h", "l"}, "H" : {"b", "e", "l"}, "I" : {"a", "f", "r"},
-    "J" : {"c", "g", "t"}, "K" : {"d", "h", "l"}, "L" : {"b", "i", "l"},
+    "J" : {"c", "g", "t"}, "L" : {"b", "i", "l"},
     "M" : {"a", "j", "r"}, "N" : {"b", "g", "s"}, "O" : {"c", "f", "r"},
     "P" : {"a", "h", "o"}, "Q" : {"c", "g", "s"}, "R" : {"a", "j", "o"},
 }
@@ -19,49 +19,20 @@ zeroToOne = {
     "e": set(), "t": set(), "p": set(),
 }
 
-#coefficients,, just in case (idk if it's used yet)
-A = {"a", "e", "t"} 
-D = {"a", "e", "l"} 
-C = {"a", "f", "t"} 
-I = {"a", "f", "r"}
-G = {"a", "h", "l"}
-P = {"a", "h", "o"}
-M = {"a", "j", "r"}
-R = {"a", "j", "o"}
-B = {"b", "e", "t"}
-H = {"b", "e", "l"}
-F = {"b", "g", "t"}
-N = {"b", "g", "s"}
-L = {"b", "i", "l"}
-E = {"c", "f", "t"}
-O = {"c", "f", "r"}
-J = {"c", "g", "t"}
-Q = {"c", "g", "s"}
-K = {"d", "h", "l"}
-
-allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-                  "M", "N", "O", "P", "Q", "R"]
+allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "L", "M", "N", "O",    "P", "Q", "R"]
 allElementSet = set(allElementList)
-
 
 #turns any imputed set of big letters into small ones
 def takeBigToSmall(combination):
     allSmall = set()
     for element in combination:
-        #print("element", element)
-        #print("bigToSmall[element]", bigToSmall[element])
         allSmall = allSmall.union(bigToSmall[element])
-        #print("allSmall.union(bigToSmall[element])", allSmall.union(bigToSmall[element]))
-    #print("combination", combination)
-    #print("allSmall",allSmall)
+        allSmall.union(bigToSmall[element]))
     return allSmall
-
-
 
 #gives small letters that need to be >=0 or there's a type I contradiction
 def giveContradictionsI(combination):
     return takeBigToSmall(combination)
-
 
 #gives small letters that need to be >= 0 or there's a type II contradiction
 def giveContradictionsII(combination):
@@ -73,11 +44,9 @@ def giveContradictionsII(combination):
         smallContradictions = smallContradictions.union(zeroToOne[small])
     if {"a","g"}.issubset(allSmall):
         smallContradictions = smallContradictions.union("t")
-        #print("smallContradictions.union(zeroToOne[small])", smallContradictions.union(zeroToOne[small]))
-    #print("smallContradictions", smallContradictions)
+        smallContradictions.union(zeroToOne[small]))
 
     return smallContradictions
-
 
 def giveNeeded(combination): #combination = an alternation set
     #getting togher all small letters that need to be >= 0
@@ -85,21 +54,20 @@ def giveNeeded(combination): #combination = an alternation set
     
     #gettin all 3-element subsets of all_contradictions
     contraSubsets = list(itertools.combinations(all_contradictions,3))
-    #contraSubsets = list(itertools.combinations(smallContradictions,3))
 
     needed = []
     #turning tuples into sets
     contraChangedSubsets = list(set(subset) for subset in contraSubsets)
-    #print("contrasubsets", contraChangedSubsets)
 
     #check what big letters need to be in the alt set
     for subset in contraChangedSubsets:
         for element in allElementList:
             if subset == bigToSmall[element] and element not in combination:
-            #if subset == bigToSmall[element]:
                 needed.append(element)
+    #account for s_0 and o_0
+    if all(x in takeBigToSmall(combination) for x in ['o','s']):
+        needed.append('K') #because K is a no-longer used letter
     return needed
-
 
 def removeSubsets(altSets):
     newAltSet = []
@@ -110,5 +78,4 @@ def removeSubsets(altSets):
     print(len(newAltSet))
     return newAltSet
 
-print(removeSubsets(currentAltSets4))
-
+print(removeSubsets(currentAltSets2))
