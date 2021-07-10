@@ -4,12 +4,12 @@ bigToSmall = {
     "A" : {"a", "e", "t"}, "B" : {"b", "e", "t"}, "C" : {"a", "f", "t"},
     "D" : {"a", "e", "l"}, "E" : {"c", "f", "t"}, "F" : {"b", "g", "t"},
     "G" : {"a", "h", "l"}, "H" : {"b", "e", "l"}, "I" : {"a", "f", "r"},
-    "J" : {"c", "g", "t"}, "K" : {"d", "h", "l"}, "L" : {"b", "i", "l"},
+    "J" : {"c", "g", "t"}, "L" : {"b", "i", "l"},
     "M" : {"a", "j", "r"}, "N" : {"b", "g", "s"}, "O" : {"c", "f", "r"},
     "P" : {"a", "h", "o"}, "Q" : {"c", "g", "s"}, "R" : {"a", "j", "o"},
 }
-allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-                  "M", "N", "O", "P", "Q", "R"]
+
+allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "L","M", "N", "O",    "P", "Q", "R"]
 allElementSet = set(allElementList)
 
 def giveAltSet():
@@ -22,7 +22,7 @@ def giveAltSet():
     for i in range(len(setCombinations)):
         setCombinations[i] = list(setCombinations[i])
 
-    #workin on a specific subset
+    #working on a specific subset
     for combination in setCombinations:
         allElements = set() #holds all small elements (ie. conditions) from combination
         neededElements = [] # holds elements that are needed
