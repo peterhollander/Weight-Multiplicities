@@ -9,7 +9,7 @@ bigToSmall = {
     "O" : {"a", "h", "o"}, "P" : {"c", "g", "s"}, "Q" : {"a", "j", "o"},
 }
 
-allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L","M", "N", "O",    "P", "Q", "R"]
+allElementList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L","M", "N", "O", "P", "Q"]
 allElementSet = set(allElementList)
 
 def giveAltSet():
