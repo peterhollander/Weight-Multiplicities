@@ -1,15 +1,21 @@
+# (c) Pamela E. Harris, Peter Hollander, Maria Rodriguez-Hertz, Daniel Qin
+# A program which calculates a Kostant's Weight q-multiplicity formula for a given lambda-mu pair
+# To run, type python3 q-mult-formula.py
+# You will be prompted to enter lambda, then mu -- do so in the format requested
+# The output will be a formula using capital letters A through Q
+
 if __name__ == "__main__":
   
-  lam = input("Enter Lambda (format: (#,#,#)): ")
-  mu = input("Enter Mu (format: (#,#,#)): ")
+  lam = input("Enter Lambda (format: (#,#,#)): ")[1:-1].split(",") #remove parens, then break into components
+  mu = input("Enter Mu (format: (#,#,#)): ")[1:-1].split(",") #remove parens, then break into components
   
-  m = int(lam[1])
-  n = int(lam[3])
-  k = int(lam[5])
+  m = int(lam[0])
+  n = int(lam[1])
+  k = int(lam[2])
   
-  x = int(mu[1])
-  y = int(mu[3])
-  z = int(mu[5])
+  x = int(mu[0])
+  y = int(mu[1])
+  z = int(mu[2])
   
   a = m + n + k - x - y - z
   b = n + k - x - y - z - 1
@@ -20,111 +26,114 @@ if __name__ == "__main__":
   g = m + n - x - 2*y - 2*z - 3
   h = n - x - 2*y - 2*z - 4
   i = m - x - 2*y - 2*z - 4
-  j = m/2 + n + 3*k/2 - x/2 - y - 3*z/2
-  l = m/2 + n + k/2 - x/2 - y - 3*z/2 - 1
-  o = m/2 + k/2 - x/2 - y - 3*z/2 - 2
-  p = -m/2 + k/2 - x/2 - y - 3*z/2 - 3
-  r = m/2 - k/2 - x/2 - y - 3*z/2 - 3
+  j = 0.5*m + n + 1.5*k- 0.5*x - y - 1.5*z
+  l = 0.5*m + n + 0.5*k - 0.5*x - y - 1.5*z - 1
+  o = 0.5*m + 0.5*k - 0.5*x - y - 1.5*z - 2
+  p = -0.5*m + 0.5*k - 0.5*x - y - 1.5*z - 3
+  r = 0.5*m - 0.5*k - 0.5*x - y - 1.5*z - 3
   
   vals = [a,b,c,d,e,f,g,h,i,j,l,o,p,r]
-  N = {a}
+  N = ""
+  #create a binary string representing which variables are nonnegative integers (1) and which are not (0)
   for val in vals:
     if (int(val) == val) and (val >= 0):
-      N.add(val)
+      N += "1"
+    else:
+      N += "0"
     
-  
+  #based on the string N, print a formula
   mult = ""
-  if N == {a,b,c,d,e,f,g,h,i,l,r,o,j}:
+  if N == "11111111111101":
     mult = "A - B - C - D + E + F + G + H + I - J - K - L - N - O + Q"
-  elif N == {}:
-    mult = ""
-  elif N == {a,b,c,d,e,f,g,i,l,r,o,j}:
+  elif N == "11111111111011":
+    mult = "A - B - C - D + E + F + G + H + I - J - K - L - M - N - P"
+  elif N == "11111110111101":
     mult = "A - B - C - D + E + F + G + H + I - J - L - N - O + Q"
-  elif N == {a,b,c,d,e,f,g,i,l,o,p,j}:
+  elif N == "11111110111110":
     mult = "A - B - C - D + E + F + G + H + I - J - L - M - N + P"
-  elif N == {a,b,c,d,e,f,g,h,l,o,p,j}:
+  elif N == "11111111011110":
     mult = "A - B - C - D + E + F + G + H + I - J - K - M - N + P"
-  elif N == {a,b,c,d,e,f,g,l,o,p,j}:
+  elif N == "11111110011110":
     mult = "A - B - C - D + E + F + G + H + I - J - M - N + P"
-  elif N == {a,b,c,d,e,f,g,h,i,l,o,j}:
+  elif N == "11111111111100":
     mult = "A - B - C - D + E + F + G + H + I - J - K - L - N"
-  elif N == {a,b,c,d,e,f,g,i,l,o,j}:
+  elif N == "11111110111100":
     mult = "A - B - C - D + E + F + G + H + I - J - L - N"
-  elif N == {a,b,c,d,e,f,l,o,p,j}:
+  elif N == "11111100011110":
     mult = "A - B - C - D + E + F + H + I - J - M - N + P"
-  elif N == {a,b,c,d,e,f,g,h,l,o,j}:
+  elif N == "11111111011100":
     mult = "A - B - C - D + E + F + G + H + I - J - K - N"
-  elif N == {a,b,d,e,f,g,h,i,l,r,o,j}:
+  elif N == "11011111111101":
     mult = "A - B - C - D + F + G + H + I - K - L - O + Q"
-  elif N == {a,b,c,d,e,f,g,l,o,j}:
+  elif N == "11111110011100":
     mult = "A - B - C - D + E + F + G + H + I - J - N"
-  elif N == {a,b,d,e,f,g,i,l,r,o,j}:
+  elif N == "11011110111101":
     mult = "A - B - C - D + F + G + H + I - L - O + Q"
-  elif N == {a,b,c,d,e,f,g,h,l,j}:
+  elif N == "11111111011000":
     mult = "A - B - C - D + E + F + G + H - J - K"
-  elif N == {a,b,c,d,e,f,l,o,j}:
+  elif N == "11111100011100":
     mult = "A - B - C - D + E + F + H + I - J - N"
-  elif N == {a,b,d,e,g,i,l,r,o,j}:
+  elif N == "11011010111101":
     mult = "A - B - C - D + G + H + I - L - O + Q"
-  elif N == {a,b,d,e,f,g,h,i,l,o,j}:
+  elif N == "11011111111100":
     mult = "A - B - C - D + F + G + H + I - K - L"
-  elif N == {a,b,c,d,e,f,g,l,j}:
+  elif N == "11111110011000":
     mult = "A - B - C - D + E + F + G + H - J"
-  elif N == {a,b,d,e,f,g,i,l,o,j}:
+  elif N == "11011110111100":
     mult = "A - B - C - D + F + G + H + I - L"
-  elif N == {a,b,d,e,f,g,h,l,o,j}:
+  elif N == "11011111011100":
     mult = "A - B - C - D + F + G + H + I - K"
-  elif N == {a,b,c,d,e,f,l,j}:
+  elif N == "11111100011000":
     mult = "A - B - C - D + E + F + H - J"
-  elif N == {a,b,d,e,f,g,h,l,j}:
+  elif N == "11011111011000":
     mult = "A - B - C - D + F + G + H - K"
-  elif N == {a,b,d,e,f,g,l,o,j}:
+  elif N == "11011110011100":
     mult = "A - B - C - D + F + G + H + I"
-  elif N == {a,b,d,e,g,l,o,j}:
+  elif N == "11011010011100":
     mult = "A - B - C - D + G + H + I - L"
-  elif N == {a,d,e,g,i,l,r,o,j}:
+  elif N == "10011010111101":
     mult = "A - C - D + G + I - L - O + Q"
-  elif N == {a,b,d,e,f,g,l,j}:
+  elif N == "11011110011000":
     mult = "A - B - C - D + F + G + H"
-  elif N == {a,b,d,e,f,l,o,j}:
+  elif N == "11011100011100":
     mult = "A - B - C - D + F + H + I"
-  elif N == {a,b,d,e,g,l,o,j}:
+  elif N == "11011010011100":
     mult = "A - B - C - D + G + H + I"
-  elif N == {a,b,c,d,e,f,j}:
+  elif N == "11111100010000":
     mult = "A - B - C + E + F - J"
-  elif N == {a,b,d,e,f,l,j}:
+  elif N == "11011100011000":
     mult = "A - B - C - D + F + H"
-  elif N == {a,b,d,e,g,l,j}:
+  elif N == "11011010011000":
     mult = "A - B - C - D + G + H"
-  elif N == {a,d,e,g,i,l,o,j}:
+  elif N == "10011010111100":
     mult = "A - C - D + G + I - L"
-  elif N == {a,b,d,e,l,o,j}:
+  elif N == "11011000011100":
     mult = "A - B - C - D + H + I"
-  elif N == {a,b,d,e,l,j}:
+  elif N == "11011000011000":
     mult = "A - B - C - D + H"
-  elif N == {a,d,e,g,l,o,j}:
+  elif N == "10011010011100":
     mult = "A - C - D + G + I"
-  elif N == {a,b,d,e,f,j}:
+  elif N == "11011100010000":
     mult = "A - B - C + F"
-  elif N == {a,b,d,l,j}:
+  elif N == "11010000011000":
     mult = "A - B - D + H"
-  elif N == {a,d,e,g,l,j}:
+  elif N == "10011010011000":
     mult = "A - C - D + G"
-  elif N == {a,d,e,l,o,j}:
+  elif N == "10011000011100":
     mult = "A - C - D + I"
-  elif N == {a,b,d,e,j}:
+  elif N == "11011000010000":
     mult = "A - B - C"
-  elif N == {a,d,e,l,j}:
+  elif N == "10011000011000":
     mult = "A - C - D"
-  elif N == {a,b,d,j}:
+  elif N == "11010000010000":
     mult = "A - B"
-  elif N == {a,d,e,j}:
+  elif N == "10011000010000":
     mult = "A - C"
-  elif N == {a,d,l,j}:
+  elif N == "10010000011000":
     mult = "A - D"
-  elif N == {a,d,j}:
+  elif N == "10010000010000":
     mult = "A"
   else:
     mult = "0"
   
-print("m_q({},{}) = {}".format(Lambda, Mu, mult))
+print("m_q({},{}) = {}".format(lam, mu, mult))
