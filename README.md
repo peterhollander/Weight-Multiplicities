@@ -2,7 +2,7 @@
 
 # Weight-Multiplicities
 
-This is a group of programs in addendum to the article [*On Kostant's Weight $q$-Multiplicity Formula for $\mathfrak{sp}_6(\mathbb{C})$*](http://https://github.com/21mdr1/Weight-Multiplicities "Will have a link when we have a link") written by the authors of this repository. These programs perform various computations related to representations of the Lie algebra of type $C_3$ ($\mathfrak{sp}_6(\mathbb{C})$).
+This is a group of programs in addendum to the article [*On Kostant's Weight $q$-Multiplicity Formula for $\mathfrak{sp}_6(\mathbb{C})$*]("Will have a link when we have a link") written by the authors of this repository. These programs perform various computations related to representations of the Lie algebra of type $C_3$ ($\mathfrak{sp}_6(\mathbb{C})$).
 
 ## Programs Pretaining Solely to the Article
 
@@ -38,9 +38,25 @@ In the article, we define 2 types of contradictions which arise forbidding certa
 
 ### Evaluating the q-analog of Kostant's partition function.nb
 
+Computes the $q$-analog of Kostant's partition function for a weight. Parameters ``m``, ``n``, and ``k`` are the triple representing a linear combination of the simple roots $m\alpha_1+n\alpha_2+k\alpha_3$. 
+
+```Mathematica
+P[m, n, k]
+```
+
 ### q-mult-formula.py
 
-### calculat-alt-sets.ipynb
+Calculates and Kostant's Weight $q$
+the multiplicity (and thus $q$-multiplicity) formula which contribute nontrivially. 
+
+A program which calculates a Kostant's Weight q-multiplicity formula for a given lambda-mu pair
+To run, type python3 q-mult-formula.py
+You will be prompted to enter lambda, then mu -- do so in the format requested
+The output will be a formula using capital letters A through Q
+
+Compute Kostant's weight multiplicity formula and its $q$-analog. Parameters ``lam`` and ``mu`` are triples representing linear combinations of the fundamental weights $\omega_1,\omega_2,\omega_3$.
+
+### calculat-alt-sets.sage
 
 ### C3_weight_multiplicities.sage
 
