@@ -49,20 +49,20 @@ Calculates and Kostant's Weight $q$-multiplicity formula in terms of the capital
 ### calculate-alt-sets.sage
 
 - Compute Weyl alternation sets. Parameters ``lam`` and ``mu`` are triples representing linear combinations of the fundamental weights $\omega_1,\omega_2,\omega_3$. 
- ```Python
- weyl_alternation_set(lam,mu=(0,0,0))
- weyl_alternation_set_17(lam, mu=(0,0,0))
- ```
+```Python
+weyl_alternation_set(lam,mu=(0,0,0))
+weyl_alternation_set_17(lam, mu=(0,0,0))
+```
 
 - Gives the Weyl alternation sets, together with a $\lambda$ and $\mu$ pair (printed as triples) which induce the alternation set, which appear for $\lambda$ with coefficients between 0 and `lamnum` and $\mu$ with coefficients between 0 and `munum`.
-  ```Python
-  alt_sets_with_mus(lamnum,munum)
-  ```
+```Python
+alt_sets_with_mus(lamnum,munum)
+```
 
 - Gives the Weyl alternation sets, together with a $\lambda$ and $\mu$ pair (printed as triples) which induce the alternation set, which appear for $\lambda$ with coefficients between 0 and `lamnum` and $\mu$ with coefficients between 0 and `munum` for $m+k+x+z$ divisible by 2 (when $\lambda$ equals the triple `(m,n,k)` and $\mu$ equals the triple `(x,y,z)`).
-  ```Python
-  alt_sets_new_lattice(lamnum, munum)
-  ```
+```Python
+alt_sets_new_lattice(lamnum, munum)
+```
 
 ### C3_weight_multiplicities.sage
 
@@ -115,7 +115,10 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
 
 ##### For Python programs
 
-- Type python3 filename.py functionname(parameters) to the command line (where filename.py is the file you'd like to use, functionname is the functions you'd like to use, and parameters are the parameters of the function)
+- Run the following code to the command line (where filename.py is the file you'd like to use, functionname is the functions you'd like to use, and parameters are the parameters of the function):
+```Command Line
+python3 filename.py functionname(parameters)
+```
 - Alternatively, open the program in Python and use the functions as specified above
 
 ##### For Mathematica programs
