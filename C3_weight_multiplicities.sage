@@ -11,20 +11,18 @@ in the Lie algebra of type A_3. (C_3)
 algebra of type A_3 (C_3), and we denote by w_1, w_2, w_3 the fundamental weights.
 '''
 
-def kostant_partition_function(xi, q_analog=True, triple_sum=True):
+def kostant_partition_function(xi, q_analog=True):
     """
     Evaluates the q-analog of Kostant's partition function for the Lie algebra
     of type C_3 on the weight xi.
     Parameters:
     - xi : 3-tuple (m,n,k) representing the weight m*a_1 + n*a_2 + k*a_3
     - q_analog: Use q-analog of Kostant partition function?
-    - triple_sum: Use (slower) triple summation formula for partition function? -- this is the only formula we have at the moment
     """
     (m,n,k) = xi
     result=0
     q=var('q')
 
-    if (triple_sum):
          # Triple summation to count partitions of xi
         for h in range(0,min(floor(m/2),floor(n/2),k)+1):
             ''' h represents the coefficient of 2al_1+2al_2+al_3
@@ -51,8 +49,6 @@ def kostant_partition_function(xi, q_analog=True, triple_sum=True):
                                     result += q^(m+n+k-d-e-2*f-3*g-4*h-2*i)
                                 else:
                                     result += 1
-
-    #add closed formulas when we have them
 
     if not q_analog:
         result = result.subs({q:1})
