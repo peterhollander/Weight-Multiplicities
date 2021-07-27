@@ -74,7 +74,7 @@ Output:
 
 # Weight-Multiplicities
 
-This is a group of programs in addendum to the article [*On Kostant's Weight $q$-Multiplicity Formula for $\mathfrak{sp}_6(\mathbb{C})$*]<>("Will have a link when we have a link") written by the authors of this repository. These programs perform various computations related to representations of the Lie algebra of type $C_3$ ($\mathfrak{sp}_6(\mathbb{C})$).
+This is a group of programs in addendum to the article [*On Kostant's Weight $q$-Multiplicity Formula for $\mathfrak{sp}_6(\mathbb{C})$*](http://https://github.com/21mdr1/Weight-Multiplicities "Will have a link when we have a link") written by the authors of this repository. These programs perform various computations related to representations of the Lie algebra of type $C_3$ ($\mathfrak{sp}_6(\mathbb{C})$).
 
 ## Programs Pretaining Solely to the Article
 
