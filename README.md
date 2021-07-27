@@ -82,7 +82,8 @@ This is a group of programs in addendum to the article [*On Kostant's Weight $q$
 
 In the article we need to calculate $\sigma(\lambda + \rho) - \mu - \rho$ for every $\sigma$ in the Weyl group, $W$. To use this program, first run the first cell to send the definitions to the kernel. The parameter `Sigma` is a $\sigma \in W$ written with the $s_i$'s separated by commas (ie. $s_1s_2s_3$ becomes s1, s2, s3).
 
-```Simplify[Composition[Simplify, Sigma][
+```Mathematica
+Simplify[Composition[Simplify, Sigma][
    Distribute[(m + n + k + 3)*alpha1] + 
     Distribute[(m + 2 n + 2 k + 5)*alpha2] + 
     Distribute[(m/2 + n + (3/2)*k + 3)*alpha3]] + 
@@ -97,10 +98,12 @@ In the article, we define 2 types of contradictions which arise forbidding certa
 
 - remove-contradictions-type-I.py returns the subsets of the Weyl group which do not cause a contradiction of type I. 
 - remove-contradictions-type-II.py, when given a list of subsets of the Weyl group, returns the subsets which do not cause a contradiction of type II. The parameter `sets` is a list of sets (the sets being subsets of the Weyl group). `currentAltSets1` is the list returned by remove-contradictions-type-I.py
-  ```print(removeSubsets(sets))
+  ```Python
+  print(removeSubsets(sets))
   ```
 - remove-contradictions-type-I-and-II.py, when given a list of subsets of the Weyl group, returns the subsets which do not cause a contradiction of type I or II or both together. The parameter `sets` is a list of sets (the sets being subsets of the Weyl group). `currentAltSets2` is the list returned by remove-contradictions-type-II.py
-  ```print(removeSubsets(sets))
+  ```Python
+  print(removeSubsets(sets))
   ```
 
 ## Other Programs
