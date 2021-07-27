@@ -116,9 +116,9 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
 ##### For Python programs
 
 - Run the following code to the command line (where filename.py is the file you'd like to use, functionname is the functions you'd like to use, and parameters are the parameters of the function):
-```Command Line
-python3 filename.py functionname(parameters)
-```
+  ```shell
+  python3 filename.py functionname(parameters)
+  ```
 - Alternatively, open the program in Python and use the functions as specified above
 
 ##### For Mathematica programs
