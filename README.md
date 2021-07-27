@@ -1,10 +1,8 @@
-# Updated Read Me In Progress
-
 # Weight-Multiplicities
 
 This is a group of programs in addendum to the article [*On Kostant's Weight $q$-Multiplicity Formula for $\mathfrak{sp}_6(\mathbb{C})$*]("Will have a link when we have a link") written by the authors of this repository. These programs perform various computations related to representations of the Lie algebra of type $C_3$ ($\mathfrak{sp}_6(\mathbb{C})$).
 
-## Programs Pretaining Solely to the Article
+## Programs Pertaining Solely to the Article
 
 ### sigma calculations.nb
 
@@ -46,23 +44,31 @@ P[m, n, k]
 
 ### q-mult-formula.py
 
-Calculates and Kostant's Weight $q$
-the multiplicity (and thus $q$-multiplicity) formula which contribute nontrivially. 
+Calculates and Kostant's Weight $q$-multiplicity formula in terms of the capital letters $A$ through $Q$ (defined in the article). To run, type python3 q-mult-formula.py, you will be prompted to enter lambda, then mu as triples of the form `(x,y,z)` representing linear combinations of the fundamental weights $\omega_1,\omega_2,\omega_3$.
 
-A program which calculates a Kostant's Weight q-multiplicity formula for a given lambda-mu pair
-To run, type python3 q-mult-formula.py
-You will be prompted to enter lambda, then mu -- do so in the format requested
-The output will be a formula using capital letters A through Q
+### calculate-alt-sets.sage
 
-Compute Kostant's weight multiplicity formula and its $q$-analog. Parameters ``lam`` and ``mu`` are triples representing linear combinations of the fundamental weights $\omega_1,\omega_2,\omega_3$.
+- Compute Weyl alternation sets. Parameters ``lam`` and ``mu`` are triples representing linear combinations of the fundamental weights $\omega_1,\omega_2,\omega_3$. 
+ ```Python
+ weyl_alternation_set(lam,mu=(0,0,0))
+ weyl_alternation_set_17(lam, mu=(0,0,0))
+ ```
 
-### calculat-alt-sets.sage
+- Gives the Weyl alternation sets, together with a $\lambda$ and $\mu$ pair (printed as triples) which induce the alternation set, which appear for $\lambda$ with coefficients between 0 and `lamnum` and $\mu$ with coefficients between 0 and `munum`.
+  ```Python
+  alt_sets_with_mus(lamnum,munum)
+  ```
+
+- Gives the Weyl alternation sets, together with a $\lambda$ and $\mu$ pair (printed as triples) which induce the alternation set, which appear for $\lambda$ with coefficients between 0 and `lamnum` and $\mu$ with coefficients between 0 and `munum` for $m+k+x+z$ divisible by 2 (when $\lambda$ equals the triple `(m,n,k)` and $\mu$ equals the triple `(x,y,z)`).
+  ```Python
+  alt_sets_new_lattice(lamnum, munum)
+  ```
 
 ### C3_weight_multiplicities.sage
 
 - Compute Kostant's partition function and its $q$-analog for a weight. Parameter ``xi`` is a triple ``(m,n,k)`` representing a linear combination of the simple roots $m\alpha_1+n\alpha_2+k\alpha_3$. 
 ```Python
-kostant_partition_function(xi, q_analog=True, triple_sum=False)
+kostant_partition_function(xi, q_analog=True)
 ```
 - Compute Kostant's weight multiplicity formula and its $q$-analog. Parameters ``lam`` and ``mu`` are triples representing linear combinations of the fundamental weights $\omega_1,\omega_2,\omega_3$.
 ```Python
@@ -81,47 +87,57 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
  plot_alternation_diagram(sigmas, mu=(0,0,0), restricted=False, color='red', dist=20, size=15)
  ```
 
-## Prerequisites - will need to add subsections with Prerequisites for each program language, etc.
+## Prerequisites
+
+##### For Sage programs
 
 - A working installation of SageMath (Tested on Version 8.8)
 - Java Runtime Environment that can run jmol (for empty region plots)
 
+##### For Python programs
+
+- A working installation of Python (Tested on Version 3)
+
+##### For Mathematica Programs
+
+- A working installation of Mathematica (Tested on Version 12.0.0 and higher)
+
 ## Usage - do we even need this? if yes need to add subsections for each program - or just straight up add it to the program sections above
 
+##### For Sage programs
+
 - Open Sage in the project directory
-- Run the following code to begin:
-```Python 
-load('C3_weight_multiplicities.sage')
-```
+- Run the following code to begin (for filename.sage the name of the file you desire to use):
+  ```Python 
+  load('filename.sage')
+  ```
 - Use functions as specified above
 
-## Examples - may need more / new ones, these are for A3
+##### For Python programs
+
+- Type python3 filename.py functionname(parameters) to the command line (where filename.py is the file you'd like to use, functionname is the functions you'd like to use, and parameters are the parameters of the function)
+- Alternatively, open the program in Python and use the functions as specified above
+
+##### For Mathematica programs
+
+- Open filename.nb in Mathematica (for filename.nb the file you'd like to use)
+- Use functions as specified above
+
+## Examples
 
 First we compute the Weyl alternation set for $\lambda=2\omega_1+3\omega_2+4\omega_3$ and $\mu=0$. We then compute the weight $q$-multiplicity for $\lambda$ and $\mu$.
 ```Python
 > load('C3_weight_multiplicities.sage')
 > weyl_alternation_set(lam=(2,3,4), mu=(0,0,0))
-{s3*s1, s1, s2, s3, 1}
+{s1*s2*s1, s3*s1*s2, s1*s2, s2*s1, s3*s1, s1, s2*s3, s3*s2, s2, s3, 1}
 > kostant_weight_multiplicity(lam=(2,3,4), mu=(0,0,0), q_analog=True)
-q^15 + 2*q^14 + 4*q^13 + 5*q^12 + 6*q^11 + 5*q^10 + 4*q^9 + 2*q^8 + q^7
+q^35 + 2*q^34 + 5*q^33 + 8*q^32 + 14*q^31 + 19*q^30 + 28*q^29 + 34*q^28 + 45*q^27 + 50*q^26 + 61*q^25 + 63*q^24 + 72*q^23 + 69*q^22 + 74*q^21 + 64*q^20 + 64*q^19 + 48*q^18 + 44*q^17 + 27*q^16 + 22*q^15 + 10*q^14 + 7*q^13 + 2*q^12 + q^11
 ```
-Here we demonstrate and compare runtimes for Kostant's partition function using the triple summation formula and our closed formulas:
+
+Here, we plot the restricted Weyl alternation diagram for {1, s1} and ``mu=0``:
 ```Python
-> kostant_partition_function(xi=(2,5,4), triple_sum=False)
-q^11 + 2*q^10 + 4*q^9 + 5*q^8 + 6*q^7 + 5*q^6 + 2*q^5
-> kostant_partition_function(xi=(2,5,4), triple_sum=True)
-q^11 + 2*q^10 + 4*q^9 + 5*q^8 + 6*q^7 + 5*q^6 + 2*q^5
-> %timeit kostant_partition_function(xi=(50,70,60), q_analog=True, triple_sum=False)
-1000 loops, best of 3: 1.54 ms per loop
-> %timeit kostant_partition_function(xi=(50,70,60), q_analog=True, triple_sum=True)
-1 loop, best of 3: 398 ms per loop
-```
-Here, we plot the restricted Weyl alternation diagram for {1, s1, s2} and ``mu=0``:
-```Python
-> plot_alternation_diagram([e,s1,s2], mu=(0,0,0), restricted=True, size=40)
+> plot_alternation_diagram([e,s1], mu=(0,0,0), restricted=False, size=40)
 Launched jmol viewer for Graphics3d Object
 ```
 Output:
-
-![alternation diagram](1s1s2.png?raw=true)
-
+![alternation diagram](1s1.png?raw=true)
