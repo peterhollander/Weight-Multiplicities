@@ -45,7 +45,7 @@ if __name__ == "__main__":
   mult = ""
   if N == "11111111111101": #1
     mult = "A - B - C - D + E + F + G + H + I - J - K - L - N - O + Q"
-  elif N == "11111111111011": #2
+  elif N == "11111111111110": #2
     mult = "A - B - C - D + E + F + G + H + I - J - K - L - M - N - P"
   elif N == "11111110111101": #3
     mult = "A - B - C - D + E + F + G + H + I - J - L - N - O + Q"
