@@ -432,7 +432,7 @@ def rl():
     load('partitions.sage')
 
 
-#kostant_partition_function((1,2,3), q_analog=True, triple_sum=True)
+#kostant_partition_function((1,2,3), q_analog=True)
 #weyl_alternation_set(lam=(2,2,2), mu=(0,0,0))
 #kostant_weight_multiplicity(lam=(2,3,4), mu=(0,0,0), q_analog=True)
 
