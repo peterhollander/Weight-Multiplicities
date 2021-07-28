@@ -18,16 +18,16 @@ Simplify[Composition[Simplify, Sigma][
   Distribute[-(x/2 + y + (3/2)*z + 3)*alpha3]]
   ```
 
-### remove-contradictions.py (I, II, and I and II)
+### remove-contradictions.py (II, III, and II and III)
 
-In the article, we define 2 types of contradictions which arise forbidding certain subsets of the Weyl group from appearing as Weyl alternation sets. updated-alt-sets.py contains the lists returned by remove-contradictions-type-I.py (`currentAltSets1`), remove-contradictions-type-II.py when `currentAltSets1` is passed (`currentAltSets2`), and remove-contradictions-type-I-and-II.py when `currentAltSets2` is passed (`currentAltSets3`).
+In the article, we define 3 types of contradictions which arise forbidding certain subsets of the Weyl group from appearing as Weyl alternation sets. updated-alt-sets.py contains the lists returned by remove-contradictions-type-II.py (`currentAltSets1`), remove-contradictions-type-III.py when `currentAltSets1` is passed (`currentAltSets2`), and remove-contradictions-type-II-and-III.py when `currentAltSets2` is passed (`currentAltSets3`).
 
-- remove-contradictions-type-I.py returns the subsets of the Weyl group which do not cause a contradiction of type I. 
-- remove-contradictions-type-II.py, when given a list of subsets of the Weyl group, returns the subsets which do not cause a contradiction of type II. The parameter `sets` is a list of sets (the sets being subsets of the Weyl group). `currentAltSets1` is the list returned by remove-contradictions-type-I.py
+- remove-contradictions-type-II.py returns the subsets of the Weyl group which do not cause a contradiction of type II. 
+- remove-contradictions-type-III.py, when given a list of subsets of the Weyl group, returns the subsets which do not cause a contradiction of type III. The parameter `sets` is a list of sets (the sets being subsets of the Weyl group). `currentAltSets1` is the list returned by remove-contradictions-type-II.py
   ```Python
   print(removeSubsets(sets))
   ```
-- remove-contradictions-type-I-and-II.py, when given a list of subsets of the Weyl group, returns the subsets which do not cause a contradiction of type I or II or both together. The parameter `sets` is a list of sets (the sets being subsets of the Weyl group). `currentAltSets2` is the list returned by remove-contradictions-type-II.py
+- remove-contradictions-type-II-and-III.py, when given a list of subsets of the Weyl group, returns the subsets which do not cause a contradiction of type II or III or both together. The parameter `sets` is a list of sets (the sets being subsets of the Weyl group). `currentAltSets2` is the list returned by remove-contradictions-type-III.py
   ```Python
   print(removeSubsets(sets))
   ```
