@@ -102,7 +102,7 @@ kostant_weight_multiplicity(lam, mu=(0,0,0), q_analog=True)
 
 - A working installation of Mathematica (Tested on Version 12.0.0 and higher)
 
-## Usage - do we even need this? if yes need to add subsections for each program - or just straight up add it to the program sections above
+## Usage
 
 ##### For Sage programs
 
