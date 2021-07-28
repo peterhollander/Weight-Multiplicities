@@ -11,7 +11,7 @@ bigToSmall = {
     "O" : {"a", "g", "q"}, "P" : {"c", "f", "p"}, "Q" : {"a", "i", "q"},
 }
 
-#contradictions of type II
+#contradictions of type III
 zeroToOne = {
     "b":{"a"}, "c":{"a", "b", "f"}, "e":{"d"}, "f":{"d", "e"},
     "g":{"d","e"}, "h":{"d","e","f","g"}, "i":{"d","e","g"}, "l":{"j"},
@@ -30,12 +30,12 @@ def takeBigToSmall(combination):
         allSmall.union(bigToSmall[element]))
     return allSmall
 
-#gives small letters that need to be >=0 or there's a type I contradiction
-def giveContradictionsI(combination):
+#gives small letters that need to be >=0 or there's a type II contradiction
+def giveContradictionsII(combination):
     return takeBigToSmall(combination)
 
-#gives small letters that need to be >= 0 or there's a type II contradiction
-def giveContradictionsII(combination):
+#gives small letters that need to be >= 0 or there's a type III contradiction
+def giveContradictionsIII(combination):
     allSmall = takeBigToSmall(combination)
 
     #we are assuming this combination is included
@@ -50,7 +50,7 @@ def giveContradictionsII(combination):
 
 def giveNeeded(combination): #combination = an alternation set
     #getting togher all small letters that need to be >= 0
-    all_contradictions = giveContradictionsI(combination).union(giveContradictionsII(combination))
+    all_contradictions = giveContradictionsII(combination).union(giveContradictionsIII(combination))
     
     #gettin all 3-element subsets of all_contradictions
     contraSubsets = list(itertools.combinations(all_contradictions,3))
